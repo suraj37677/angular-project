@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="circleApp">
+<head>
+    <title>Add Circle Button</title>
+    <style>
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .grey {
+            background-color: white;
+        }
+
+        .white {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+  <div>
+    <button (click)="addCircle()">Add Circle</button>
+    <div *ngFor="let circle of circles" [class.circle]="true" [class.grey]="circle.isGrey" [class.white]="!circle.isGrey" (click)="toggleCircleColor(circle)">
+      {{ circle.isGrey ? 'Grey' : 'White' }}
+    </div>
+    <div>Total Grey Circles: {{ getGreyCircleCount() }}</div>
+  </div>
+  
+  
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('circleApp', []);
+
+        app.controller('CircleController', function($scope) {
+            $scope.circles = [];
+
+            $scope.addCircle = function() {
+                var circle = { isGrey: false };
+                $scope.circles.push(circle);
+            };
+
+            $scope.toggleCircleColor = function(circle) {
+                circle.isGrey = !circle.isGrey;
+            };
+
+            $scope.getGreyCircleCount = function() {
+                return $scope.circles.filter(function(circle) {
+                    return circle.isGrey;
+                }).length;
+            };
+        });
+    </script>
+</body>
+</html>
